@@ -142,7 +142,7 @@
 		"args": {
             "type": "subprocess",
             "external_id": "r",
-            "additional_scopes": ["tex.latex.knitr"],
+            "additional_scopes": ["tex.latex.knitr", "q"],
             "encoding": {
                 "windows": "$win_cmd_encoding",
                 "linux": "utf8",
