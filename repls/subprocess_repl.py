@@ -148,10 +148,10 @@ class SubprocessRepl(Repl):
             except:
                 import traceback
                 traceback.print_exc()
-                error_message(
-                    "SublimeREPL: obtaining sane environment failed in getenv()\n"
-                    "Check console and 'getenv_command' setting \n"
-                    "WARN: Falling back to SublimeText environment")
+                #error_message(
+                #    "SublimeREPL: obtaining sane environment failed in getenv()\n"
+                #    "Check console and 'getenv_command' setting \n"
+                #    "WARN: Falling back to SublimeText environment")
 
         # Fallback to environ.copy() if not on POSIX or sane getenv failed
         return os.environ.copy()

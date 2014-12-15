@@ -163,6 +163,8 @@ class ReplTransferCurrent(sublime_plugin.TextCommand):
             text = self.selected_blocks()
         elif scope == "file":
             text = self.selected_file()
+        elif scope == "linetext":
+            text = self.selected_line_or_text()
         cmd = "repl_" + action
         self.view.window().run_command(cmd, {"external_id": self.repl_external_id(), "text": text})
 
@@ -199,3 +201,36 @@ class ReplTransferCurrent(sublime_plugin.TextCommand):
     def selected_file(self):
         v = self.view
         return v.substr(sublime.Region(0, v.size()))
+
+    def selected_line_or_text(self):
+        s = ""
+        for region in self.view.sel():
+            if region.empty():
+                s += self.view.substr(self.view.line(region))
+                # self.advanceCursor(region)
+            else:
+                s += self.view.substr(region)
+        return s
+
+class ReplTransferCurrentCmd(sublime_plugin.TextCommand):
+    def run(self, edit, cmd="print($$)"):
+        text = ""
+        # grab the word or the selection from the view
+        for region in self.view.sel():
+            location = False
+            if region.empty():
+                # if we have no selection grab the current word
+                location = self.view.word(region)
+            else:
+                # grab the selection
+                location = region
+
+            if location and not location.empty():
+                text = self.view.substr(location)
+
+                cmd = cmd.replace("$$", text)
+                self.view.window().run_command("repl_send", {"external_id": self.repl_external_id(), "text": cmd})
+
+    def repl_external_id(self):
+        return self.view.scope_name(0).split(" ")[0].split(".", 1)[1]
+

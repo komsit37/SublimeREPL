@@ -105,5 +105,62 @@
 	{ "keys": ["ctrl+,", "l"], "command": "repl_transfer_current", "args": {"scope": "lines"}},
 	{ "keys": ["shift+ctrl+,", "l"], "command": "repl_transfer_current", "args": {"scope": "lines", "action":"view_write"}},
 	{ "keys": ["ctrl+,", "b"], "command": "repl_transfer_current", "args": {"scope": "block"}},
-	{ "keys": ["shift+ctrl+,", "b"], "command": "repl_transfer_current", "args": {"scope": "block", "action":"view_write"}}
+	{ "keys": ["shift+ctrl+,", "b"], "command": "repl_transfer_current", "args": {"scope": "block", "action":"view_write"}},
+
+		//komsit shortcut
+	{ "keys": ["ctrl+enter"], "command": "repl_transfer_current", "args": {"scope": "linetext"}
+		, "context":[{ "key": "selector", "operator": "equal", "operand": "source.r" }] },
+	{ "keys": ["ctrl+e"], "command": "repl_transfer_current", "args": {"scope": "linetext"}
+		, "context":[{ "key": "selector", "operator": "equal", "operand": "source.r" }] },
+
+	//intentionally scope free
+	{ "keys": ["ctrl+shift+r"], "command": "repl_transfer_current", "args": {"scope": "linetext"}},
+
+	{ "keys": ["f1"], "command": "repl_transfer_current_cmd", "args": {"cmd": "help($$, help_type=\"html\")"}
+		, "context":[{ "key": "selector", "operator": "equal", "operand": "source.r" }] },
+
+	{ "keys": ["f2"], "command": "repl_transfer_current_cmd", "args": {"cmd": "head($$)"}
+		, "context":[{ "key": "selector", "operator": "equal", "operand": "source.r" }] },
+
+	{ "keys": ["shift+f2"], "command": "repl_transfer_current_cmd", "args": {"cmd": "print($$)"}
+		, "context":[{ "key": "selector", "operator": "equal", "operand": "source.r" }] },
+
+	{ "keys": ["f3"], "command": "repl_transfer_current_cmd", "args": {"cmd": "str($$)"}
+		, "context":[{ "key": "selector", "operator": "equal", "operand": "source.r" }] },
+
+	{ "keys": ["f4"], "command": "repl_transfer_current_cmd"
+		, "args": {"cmd": "list(\"ls\"=ls(), \"lsf\"=as.vector(lsf.str()), \"getwd\"=getwd())"}
+		, "context":[{ "key": "selector", "operator": "equal", "operand": "source.r" }] },
+	
+	{ "keys": ["f5"], "command": "repl_transfer_current_cmd"
+		, "args": {"cmd": "$$ <- execute(h, \"$$\")"}},
+
+	{ "keys": ["f6"], "command": "repl_transfer_current_cmd"
+		, "args": {"cmd": "plot(execute(h, \"$$\"));bringToTop()"}},
+
+	{ "keys": ["ctrl+alt+r"], "command": "repl_open",
+		"args": {
+            "type": "subprocess",
+            "external_id": "r",
+            "additional_scopes": ["tex.latex.knitr"],
+            "encoding": {
+                "windows": "$win_cmd_encoding",
+                "linux": "utf8",
+                "osx": "utf8"
+                },
+            "soft_quit": "\nquit(save=\"no\")\n",
+            "cmd": {"linux": ["R", "--interactive", "--no-readline"],
+                    "osx": ["R", "--interactive", "--no-readline"],
+                    "windows": ["Rterm.exe", "--ess", "--encoding=$win_cmd_encoding"]},
+            "cwd": "$file_path",
+            "extend_env": {"osx": {"PATH": "{PATH}:/usr/local/bin"},
+                           "linux": {"PATH": "{PATH}:/usr/local/bin"},
+                           "windows": {}},
+            "cmd_postfix": "\n",
+            "suppress_echo": {"osx": true,
+                              "linux": true,
+                              "windows": false},
+            "syntax": "Packages/R/R Console.tmLanguage"
+            }
+        }
 ]
