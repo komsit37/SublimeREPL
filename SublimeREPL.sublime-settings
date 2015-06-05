@@ -38,8 +38,8 @@
 
 	// Where to look for python virtualenvs
 	"python_virtualenv_paths": [
-		"~/.virtualenvs",  // virtualenvwrapper
-		"~/.venv"  // venv.bash https://github.com/wuub/venv
+		"~/.venv",
+		"/workspace/learn/flasky/"
 	],
 
 	// Use arrows for history navigation instead of Alt+[P|N]/Ctrl+[P|N]
